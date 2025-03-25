@@ -19,8 +19,7 @@ class MessageConsumer(
     private var isTerminated = true
     private val log = LoggerFactory.getLogger(MessageConsumer::class.java)
 
-    @Scheduled(cron = "*/3 * * * * *")
-    private fun consume(){
+    fun consume(){
         log.warn("메시지 큐 내부 메시지 확인")
         for(i in 1..10) {
             messageQueue.add(messageFactory.createMessage(MessageType.NOTI, "테스트 메시지 $i"))
