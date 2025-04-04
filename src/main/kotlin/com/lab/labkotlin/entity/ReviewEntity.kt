@@ -6,11 +6,14 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-class Member(
+class ReviewEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var memberId: Long? = null,
-    var name: String
+    var reviewId: Long? = null,
+    var memberId: Long,
+    var title: String,
+    var content: String,
+    var viewCount: Long,
 ) {
 
 }
