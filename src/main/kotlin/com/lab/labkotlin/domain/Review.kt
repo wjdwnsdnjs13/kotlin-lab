@@ -4,10 +4,10 @@ import com.lab.labkotlin.entity.ReviewEntity
 
 class Review(
     var reviewId: Long? = null,
-    var memberId: Long = 0,
+    var memberId: Long = 0L,
     var title: String = "",
     var content: String = "",
-    var viewCount: Long = 0,
+    var viewCount: Long = 0L,
 ) {
     fun toReviewEntity(): ReviewEntity {
         return ReviewEntity(

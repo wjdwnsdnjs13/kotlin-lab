@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 class ReviewController(
     private val reviewService: ReviewService
 ) {
-    @PostMapping("/{reviewId}")
+    @PostMapping("")
     fun createReview(createReviewReq: CreateReviewReq): CreateReviewRes {
         val review = reviewService.createReview(Review().also {review ->
             review.memberId = createReviewReq.memberId
             review.title = createReviewReq.title
             review.content = createReviewReq.content
-            review.viewCount = createReviewReq.viewCount
         })
-        // TODO : 여기부터
         return CreateReviewRes().also { res ->
             res.reviewId = review.reviewId?: throw IllegalStateException("reviewId is null")
             review.memberId = review.memberId
