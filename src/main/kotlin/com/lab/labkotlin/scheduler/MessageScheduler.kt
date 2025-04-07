@@ -14,7 +14,7 @@ class MessageScheduler(
 ) {
     private val log = LoggerFactory.getLogger(MessageScheduler::class.java)
 
-//    @Scheduled(cron = "*/3 * * * * *")
+//    @Scheduled(cron = "* */5 * * * *")
 //    fun supplyMessage() {
 //        log.info("-----------Supplying message...-------------")
 //        messageConsumer.consume()
