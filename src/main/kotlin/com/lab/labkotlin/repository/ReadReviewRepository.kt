@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReadReviewRepository: JpaRepository<ReviewEntity, Long> {
     fun findByMemberId(memberId: Long): MutableList<ReviewEntity>
+
+    fun findByReviewId(reviewId: Long): ReviewEntity?
 }

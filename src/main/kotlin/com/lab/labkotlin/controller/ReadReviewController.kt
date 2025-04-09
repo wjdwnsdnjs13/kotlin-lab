@@ -19,5 +19,12 @@ class ReadReviewController(
     fun findByMemberId(memberId: Long): List<Review> {
         return readReviewService.findByMemberId(memberId)
     }
+
+    @GetMapping("/{reviewId}")
+    @ResponseStatus(HttpStatus.OK)
+    fun findByReviewId(reviewId: Long): Review {
+        return readReviewService.findByReviewId(reviewId)
+    }
+
     
 }
