@@ -22,4 +22,10 @@ class TestController {
     fun postTest(): String {
         return "Post Test Success"
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{resourceId}")
+    fun getExceptionHanlderTest(): String {
+        return throw TestException.ResourceNotFound()
+    }
 }
