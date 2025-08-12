@@ -34,6 +34,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 //    testImplementation("org.springframework.batch:spring-batch-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Mixpanel Java SDK
+    implementation("com.mixpanel:mixpanel-java:1.5.0")
 }
 
 kotlin {
