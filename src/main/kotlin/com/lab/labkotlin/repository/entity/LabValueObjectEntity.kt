@@ -18,14 +18,14 @@ class LabValueObjectEntity(
     @Column(name = "age")
     val age: Long,
     @Column(name = "authority_id")
-    val authorityid: AuthorityId,
+    val authorityId: AuthorityId,
 ) {
     companion object {
         fun from(domain: LabValueObject): LabValueObjectEntity =
             LabValueObjectEntity(
                 memberId = domain.memberId,
                 age = domain.age,
-                authorityid = domain.authorityId
+                authorityId = domain.authorityId
             )
     }
 
@@ -33,6 +33,6 @@ class LabValueObjectEntity(
         LabValueObject(
             memberId = memberId,
             age = age,
-            authorityId = authorityid
+            authorityId = authorityId
         )
 }

@@ -7,6 +7,7 @@ import com.lab.labkotlin.domain.LabValueObject2
 import com.lab.labkotlin.domain.MemberId
 import com.lab.labkotlin.repository.LabValueObjectRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class LabValueObjectService(
@@ -29,6 +30,7 @@ class LabValueObjectService(
         println("age: $age")
     }
 
+    @Transactional
     fun create(labValueObject: LabValueObject) {
         labValueObjectRepository.save(labValueObject)
     }
