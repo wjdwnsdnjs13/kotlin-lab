@@ -9,7 +9,7 @@ import org.springframework.web.socket.WebSocketSession
 import java.util.concurrent.TimeUnit
 
 @Service
-class WebSocketService{
+class WebSocketService {
 
 //    TODO : 캐시 미스일 경우 DB에서 데이터 가져오는 로직 추가 필요
     val caffeineCache: Cache<String, WebSocketSession> = Caffeine.newBuilder()
@@ -18,14 +18,14 @@ class WebSocketService{
         .recordStats()
         .build()
 
-    fun createSession(session: WebSocketSession){
+    fun createSession(session: WebSocketSession) {
         println("웹소켓 연결 생성: ${session.id}")
         caffeineCache.put(session.id, session)
     }
 
-    fun sendMessageToAll(session: WebSocketSession, message: TextMessage){
+    fun sendMessageToAll(session: WebSocketSession, message: TextMessage) {
         println("수신된 메시지: ${message.payload} from ${session.id}")
-        caffeineCache.asMap().map {
+        caffeineCache.asMap().forEach {
             val clientSession = it.value
 
             if(clientSession.isOpen && !clientSession.id.equals(session.id))
@@ -33,7 +33,7 @@ class WebSocketService{
         }
     }
 
-    fun closeSession(session: WebSocketSession, status: CloseStatus){
+    fun closeSession(session: WebSocketSession, status: CloseStatus) {
         if(session.isOpen){
             session.close(status)
         }
