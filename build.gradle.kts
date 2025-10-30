@@ -37,6 +37,12 @@ dependencies {
 
     // Mixpanel Java SDK
     implementation("com.mixpanel:mixpanel-java:1.5.0")
+
+//    웹소켓
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
+
+//    로컬 캐시
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 }
 
 kotlin {
