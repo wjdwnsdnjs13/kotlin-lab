@@ -11,18 +11,22 @@ import org.springframework.web.socket.handler.TextWebSocketHandler
 class ChatWebSocketHandler(
     private val webSocketService: WebSocketService,
 ) : TextWebSocketHandler() {
-
     override fun afterConnectionEstablished(session: WebSocketSession) {
         webSocketService.createSession(session)
     }
 
-    override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
+    override fun handleTextMessage(
+        session: WebSocketSession,
+        message: TextMessage,
+    ) {
         webSocketService.sendMessageToAll(session, message)
     }
 
-    override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
+    override fun afterConnectionClosed(
+        session: WebSocketSession,
+        status: CloseStatus,
+    ) {
         println("웹소켓 연결 종료: ${session.id}, 상태: $status")
         webSocketService.closeSession(session, status)
     }
-
 }

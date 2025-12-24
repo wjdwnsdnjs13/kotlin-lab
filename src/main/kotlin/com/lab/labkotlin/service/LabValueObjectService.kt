@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class LabValueObjectService(
-    val labValueObjectRepository: LabValueObjectRepository
+    val labValueObjectRepository: LabValueObjectRepository,
 ) {
     fun test(memberId: MemberId) {
         LabValueObject2(
             memberId = memberId,
             age = 1L,
-            authority = Authority(AuthorityId(1L))
+            authority = Authority(AuthorityId(1L)),
         )
         println("MemberId: ${memberId.id}")
     }

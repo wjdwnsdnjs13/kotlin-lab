@@ -25,7 +25,7 @@ class LabValueObjectEntity(
             LabValueObjectEntity(
                 memberId = domain.memberId,
                 age = domain.age,
-                authorityId = domain.authorityId
+                authorityId = domain.authorityId,
             )
     }
 
@@ -33,6 +33,6 @@ class LabValueObjectEntity(
         LabValueObject(
             memberId = memberId,
             age = age,
-            authorityId = authorityId
+            authorityId = authorityId,
         )
 }

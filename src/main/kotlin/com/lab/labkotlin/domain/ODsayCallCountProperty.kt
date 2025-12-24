@@ -1,6 +1,6 @@
 package com.lab.labkotlin.domain
 
-class ODsayCallCountProperty (
+class ODsayCallCountProperty(
     var startX: String,
     var startY: String,
     var endX: String,

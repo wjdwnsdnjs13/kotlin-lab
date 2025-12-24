@@ -22,7 +22,6 @@ class MixpanelEventListener(
     @Async
     @EventListener
     fun eventTrack(mixpanelEvent: MixpanelEvent) {
-
         // 믹스패널 이벤트 메시지 생성
         val messageBuilder = MessageBuilder(token)
 
