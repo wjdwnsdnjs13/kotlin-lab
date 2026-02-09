@@ -4,11 +4,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
-class NotiMessageHandler: MessageHandler {
+class NotiMessageHandler : MessageHandler {
     private val log = LoggerFactory.getLogger(NotiMessageHandler::class.java)
 
     override fun handle(message: Message) {
-        if(message.messageType != MessageType.NOTI) {
+        if (message.messageType != MessageType.NOTI) {
             log.warn("메시지 핸들러가 처리할 수 없는 메시지 타입입니다.")
             return
         }

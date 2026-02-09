@@ -3,7 +3,7 @@ package com.lab.labkotlin.common.exception
 import org.springframework.http.HttpStatus
 
 open class BusinessException(
-    errorCode: ErrorCode
+    errorCode: ErrorCode,
 ) : RuntimeException(errorCode.getMessage()) {
     val httpStatus: HttpStatus
     val code: String

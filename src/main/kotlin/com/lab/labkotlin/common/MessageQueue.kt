@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 @Component
 class MessageQueue(
-    val queue: ConcurrentLinkedQueue<Message> = ConcurrentLinkedQueue()
+    val queue: ConcurrentLinkedQueue<Message> = ConcurrentLinkedQueue(),
 ) {
     fun add(message: Message) {
         queue.add(message)

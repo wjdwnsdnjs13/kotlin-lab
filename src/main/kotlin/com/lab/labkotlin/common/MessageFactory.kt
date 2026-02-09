@@ -4,11 +4,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class MessageFactory(
-    val messageFailHandler: MessageFailHandler
+    val messageFailHandler: MessageFailHandler,
 ) {
-
-    fun createMessage(messageType: MessageType, message: String): Message {
+    fun createMessage(
+        messageType: MessageType,
+        message: String,
+    ): Message {
         return Message(messageType, message, messageFailHandler)
     }
-
 }

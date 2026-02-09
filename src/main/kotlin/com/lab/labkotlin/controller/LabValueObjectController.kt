@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/api/lab-value-object")
 class LabValueObjectController(
-    val labValueObjectService: LabValueObjectService
+    val labValueObjectService: LabValueObjectService,
 ) {
     @GetMapping("/1")
     fun test1() {
@@ -34,7 +33,7 @@ class LabValueObjectController(
     @PostMapping
     fun create(
         @RequestBody
-        createLabValueObjectRequest: CreateLabValueObjectRequest
+        createLabValueObjectRequest: CreateLabValueObjectRequest,
     ) {
         labValueObjectService.create(createLabValueObjectRequest.toDomain())
     }

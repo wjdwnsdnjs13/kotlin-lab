@@ -1,10 +1,8 @@
 package com.lab.labkotlin.common
 
 import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
@@ -13,23 +11,23 @@ class MessageConsumer(
     private val messageHandlerList: List<MessageHandler>,
     private val messageFailHandler: MessageFailHandler,
     private val messageQueue: MessageQueue,
-    private val messageFactory: MessageFactory
+    private val messageFactory: MessageFactory,
 ) {
     private val threadPoolSize = 2
     private var isTerminated = true
     private val log = LoggerFactory.getLogger(MessageConsumer::class.java)
 
-    fun consume(){
+    fun consume() {
         log.warn("메시지 큐 내부 메시지 확인")
-        for(i in 1..10) {
+        for (i in 1..10) {
             messageQueue.add(messageFactory.createMessage(MessageType.NOTI, "테스트 메시지 $i"))
         }
-        if(!messageQueue.isEmpty() && isTerminated){
+        if (!messageQueue.isEmpty() && isTerminated) {
             executeThreadPool()
         }
     }
 
-    private fun executeThreadPool(){
+    private fun executeThreadPool() {
         isTerminated = false
 
         log.warn("현재 메시지 개수 : ${messageQueue.size()}")
@@ -37,27 +35,24 @@ class MessageConsumer(
         log.info("현재 메시지 : ${messageQueue.queue.map { it.content }}")
         val executor = Executors.newFixedThreadPool(threadPoolSize)
 
-        IntStream.range(0, threadPoolSize).forEach{ threadNumber ->
+        IntStream.range(0, threadPoolSize).forEach { threadNumber ->
             CompletableFuture.runAsync(this::process, executor)
         }
         executor.shutdown()
     }
 
-    private fun process(){
+    private fun process() {
         log.info("메시지 처리 시작")
-        var message : Message
-        while (!messageQueue.isEmpty()){
-            message = messageQueue.poll()?: break
+        var message: Message
+        while (!messageQueue.isEmpty()) {
+            message = messageQueue.poll() ?: break
             log.info("메시지 처리 중")
             handleMessage(message)
         }
         isTerminated = true
     }
 
-    private fun handleMessage(
-        message : Message
-    ){
-
+    private fun handleMessage(message: Message) {
         messageHandlerList.forEach { messageHandler ->
             try {
                 messageHandler.handle(message)

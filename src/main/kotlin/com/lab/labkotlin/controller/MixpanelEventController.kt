@@ -17,22 +17,23 @@ class MixpanelEventController(
     @PostMapping("/odsay-call-count")
     fun oDsayCallCountEvent(
         @RequestBody
-        oDsayCallCountReq: ODsayCallCountReq
+        oDsayCallCountReq: ODsayCallCountReq,
     ) {
         println("Received ODsay Call Count Event: $oDsayCallCountReq")
         applicationEventPublisher.publishEvent(
             MixpanelEvent(
                 mixpanelEventName = MixpanelEvent.MixpanelEventName.ODSAY_CALL_COUNT,
                 memberId = oDsayCallCountReq.memberId,
-                property = ODsayCallCountProperty(
-                    startX = "12.12",
-                    startY = "123.123",
-                    endX = "21.21",
-                    endY = "321.321",
-                    oDsayCallCount = oDsayCallCountReq.oDsayCallCount,
-                    routeCount = oDsayCallCountReq.routeCount,
-                )
-            )
+                property =
+                    ODsayCallCountProperty(
+                        startX = "12.12",
+                        startY = "123.123",
+                        endX = "21.21",
+                        endY = "321.321",
+                        oDsayCallCount = oDsayCallCountReq.oDsayCallCount,
+                        routeCount = oDsayCallCountReq.routeCount,
+                    ),
+            ),
         )
     }
 }

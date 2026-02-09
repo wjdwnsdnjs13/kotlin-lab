@@ -7,8 +7,9 @@ class CreateLabValueObjectRequest(
     val age: Long,
     val authorityId: AuthorityId,
 ) {
-    fun toDomain() : LabValueObject = LabValueObject(
-        age = age,
-        authorityId = authorityId,
-    )
+    fun toDomain(): LabValueObject =
+        LabValueObject(
+            age = age,
+            authorityId = authorityId,
+        )
 }

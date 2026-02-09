@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.stereotype.Component
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -19,11 +18,12 @@ class CustomExceptionHandler {
 
     @ExceptionHandler(BusinessException::class)
     fun businessExceptionHandler(e: BusinessException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse(
-            e.httpStatus,
-            e.code,
-            e.message?:""
-        )
+        val errorResponse =
+            ErrorResponse(
+                e.httpStatus,
+                e.code,
+                e.message ?: "",
+            )
         return ResponseEntity.status(e.httpStatus).body(errorResponse)
     }
 
@@ -31,7 +31,7 @@ class CustomExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     protected fun handleMethodArgumentNotValidException(
         exception: MethodArgumentNotValidException,
-    ) : Map<String, String>{
+    ): Map<String, String> {
         val errors: MutableMap<String, String> = HashMap()
         exception.bindingResult.fieldErrors.forEach { error ->
             errors[error.field] = error.defaultMessage ?: "Error 설정된 메시지가 없습니다."
@@ -39,7 +39,6 @@ class CustomExceptionHandler {
 
         return errors
     }
-
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

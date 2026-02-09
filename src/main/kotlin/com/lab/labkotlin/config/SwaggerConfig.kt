@@ -7,9 +7,8 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SwaggerConfig {
-
     @Bean
-    fun OpenApi(): OpenAPI {
+    fun openApi(): OpenAPI {
         return OpenAPI()
             .info(swaggerInfo())
     }
@@ -20,5 +19,4 @@ class SwaggerConfig {
             .title("kotlin-lab API 문서")
             .description("kotlin-lab API 문서입니다.")
     }
-
 }

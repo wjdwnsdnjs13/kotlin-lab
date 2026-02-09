@@ -7,8 +7,8 @@ import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class LabValueObjectRepository(
-    private val labValueObjectJpaRepository: LabValueObjectJpaRepository
-){
+    private val labValueObjectJpaRepository: LabValueObjectJpaRepository,
+) {
     fun save(labValueObject: LabValueObject) {
         labValueObjectJpaRepository.save(LabValueObjectEntity.from(labValueObject))
     }
