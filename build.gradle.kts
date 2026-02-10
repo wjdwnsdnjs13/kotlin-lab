@@ -63,6 +63,13 @@ dependencies {
 
 //    로컬 캐시
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+
+//     1. SMTP용
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+//     2. SDK용
+    implementation("com.mailgun:mailgun-java:2.2.1")
+//     3. HttpExchange용 (WebFlux가 필요합니다)
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 }
 
 kotlin {
