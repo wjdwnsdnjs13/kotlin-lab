@@ -4,6 +4,7 @@ import com.lab.labkotlin.application.HttpExchangeEmailSender
 import com.lab.labkotlin.application.MailgunSdkEmailSender
 import com.lab.labkotlin.application.SmtpEmailSender
 import com.lab.labkotlin.application.email.EmailRequest
+import com.lab.labkotlin.application.email.EmailSendMethod
 import com.lab.labkotlin.service.outbound.EmailComparisonResult
 import com.lab.labkotlin.service.outbound.EmailSendResult
 import kotlinx.coroutines.coroutineScope
@@ -25,7 +26,11 @@ class MailCommandService(
                 smtpEmailSender.send(request)
             }
         logger.info("SMTP 이메일 전송 완료: ${duration}ms")
-        return EmailSendResult("SMTP", duration, true)
+        return EmailSendResult(
+            method = EmailSendMethod.SMTP,
+            durationMs = duration,
+            success = true,
+        )
     }
 
     suspend fun sendViaMailgunSdk(request: EmailRequest): EmailSendResult {
@@ -34,7 +39,11 @@ class MailCommandService(
                 mailgunSdkEmailSender.send(request)
             }
         logger.info("Mailgun SDK 이메일 전송 완료: ${duration}ms")
-        return EmailSendResult("Mailgun SDK", duration, true)
+        return EmailSendResult(
+            method = EmailSendMethod.MAILGUN_SDK,
+            durationMs = duration,
+            success = true,
+        )
     }
 
     suspend fun sendViaHttpExchange(request: EmailRequest): EmailSendResult {
@@ -43,7 +52,11 @@ class MailCommandService(
                 httpExchangeEmailSender.send(request)
             }
         logger.info("HttpExchange 이메일 전송 완료: ${duration}ms")
-        return EmailSendResult("HttpExchange", duration, true)
+        return EmailSendResult(
+            method = EmailSendMethod.HTTP_EXCHANGE,
+            durationMs = duration,
+            success = true,
+        )
     }
 
     suspend fun compareAllMethods(request: EmailRequest): EmailComparisonResult =
@@ -56,7 +69,12 @@ class MailCommandService(
                     sendViaSmtp(request)
                 }.getOrElse { e ->
                     logger.error("SMTP 전송 실패", e)
-                    EmailSendResult("SMTP", 0, false, e.message)
+                    EmailSendResult(
+                        method = EmailSendMethod.SMTP,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
                 }
 
             val mailgunSdkResult =
@@ -64,7 +82,12 @@ class MailCommandService(
                     sendViaMailgunSdk(request)
                 }.getOrElse { e ->
                     logger.error("Mailgun SDK 전송 실패", e)
-                    EmailSendResult("Mailgun SDK", 0, false, e.message)
+                    EmailSendResult(
+                        method = EmailSendMethod.MAILGUN_SDK,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
                 }
 
             val httpExchangeResult =
@@ -72,17 +95,22 @@ class MailCommandService(
                     sendViaHttpExchange(request)
                 }.getOrElse { e ->
                     logger.error("HttpExchange 전송 실패", e)
-                    EmailSendResult("HttpExchange", 0, false, e.message)
+                    EmailSendResult(
+                        method = EmailSendMethod.SMTP,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
                 }
 
             val results = listOf(smtpResult, mailgunSdkResult, httpExchangeResult)
-            val fastest = results.filter { it.success }.minByOrNull { it.durationMs }
+            val fastest = results.filter { it.success }.minBy { it.durationMs }
 
-            logger.info("전송 비교 완료 - 가장 빠른 방법: ${fastest?.method}")
+            logger.info("전송 비교 완료 - 가장 빠른 방법: ${fastest.method}")
 
             EmailComparisonResult(
                 results = results,
-                fastestMethod = fastest?.method,
+                fastestMethod = fastest.method,
             )
         }
 }
