@@ -10,15 +10,16 @@ import java.util.Base64
 class HttpExchangeEmailSender(
     private val mailgunHttpClient: MailgunHttpClient,
     @Value("\${mailgun.api-key}") private val apiKey: String,
-    @Value("\${spring.mail.username}") private val domain: String,
+    @Value("\${mailgun.domain}") private val domain: String,
+    @Value("\${mailgun.from-email}") private val fromEmail: String,
 ) : EmailSender {
     override suspend fun send(request: EmailRequest) {
         val auth = "Basic " + Base64.getEncoder().encodeToString("api:$apiKey".toByteArray())
         val formData =
             LinkedMultiValueMap<String, String>().apply {
-                add("from", "sender@$domain")
+                add("from", fromEmail)
                 add("to", request.to)
-                add("subject", request.subject)
+                add("subject", request.title)
                 add("text", request.body)
             }
 

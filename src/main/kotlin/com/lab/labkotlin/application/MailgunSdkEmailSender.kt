@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component
 class MailgunSdkEmailSender(
     @Value("\${mailgun.api-key}")
     private val apiKey: String,
-    @Value("\${spring.mail.username}")
+    @Value("\${mailgun.domain}")
     private val domain: String,
+    @Value("\${mailgun.from-email}")
+    private val fromEmail: String,
 ) : EmailSender {
     private val mailgunMessagesApi: MailgunMessagesApi =
         MailgunClient.config(apiKey)
@@ -24,16 +26,16 @@ class MailgunSdkEmailSender(
 
     override suspend fun send(emailRequest: EmailRequest) {
         logger.info("Mailgun SDK Email 전송 시작: $emailRequest")
-        val resonse: MessageResponse =
+        val response: MessageResponse =
             mailgunMessagesApi.sendMessage(
-                emailRequest.from,
+                domain,
                 Message.builder()
-                    .from(emailRequest.from)
+                    .from(fromEmail)
                     .to(emailRequest.to)
-                    .subject(emailRequest.subject)
+                    .subject(emailRequest.title)
                     .text(emailRequest.body)
                     .build(),
             )
-        logger.info("Mailgun SDK Email 전송 결과: $resonse")
+        logger.info("Mailgun SDK Email 전송 결과: $response")
     }
 }

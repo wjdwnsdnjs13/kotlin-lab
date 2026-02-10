@@ -17,7 +17,7 @@ class SmtpEmailSender(
             SimpleMailMessage().apply {
                 setTo(request.to)
                 setFrom(fromEmailAddress)
-                setSubject(request.subject)
+                setSubject(request.title)
                 setText(request.body)
             },
         )
