@@ -70,6 +70,10 @@ dependencies {
     implementation("com.mailgun:mailgun-java:2.2.1")
 //     3. HttpExchange용 (WebFlux가 필요합니다)
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+//    Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }
 
 kotlin {
