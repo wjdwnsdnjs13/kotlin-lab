@@ -31,7 +31,7 @@ class MailgunSdkEmailSender(
                     .from(emailRequest.from)
                     .to(emailRequest.to)
                     .subject(emailRequest.subject)
-                    .text(emailRequest.content)
+                    .text(emailRequest.body)
                     .build(),
             )
         logger.info("Mailgun SDK Email 전송 결과: $resonse")
