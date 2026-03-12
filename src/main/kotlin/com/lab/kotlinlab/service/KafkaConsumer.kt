@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class KafkaConsumer {
     private val log: Logger = LoggerFactory.getLogger(KafkaConsumer::class.java)
 
-    @KafkaListener(topics = ["\${spring.kafka.topics.my-topic}"], groupId = "kotlin-lab")
+    @KafkaListener(topics = ["\${spring.kafka.topics.my-topic}"], groupId = "\${spring.kafka.consumer.group-id}")
     fun consumeMessage(
         topic: String,
         message: String,
