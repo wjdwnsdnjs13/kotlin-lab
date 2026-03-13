@@ -63,6 +63,9 @@ dependencies {
 
 //    로컬 캐시
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+
+//    카프카
+    implementation("org.springframework.kafka:spring-kafka")
 }
 
 kotlin {
