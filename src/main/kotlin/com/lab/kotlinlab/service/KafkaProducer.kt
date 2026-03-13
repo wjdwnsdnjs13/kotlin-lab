@@ -16,11 +16,21 @@ class KafkaProducer(
         message: String,
     ) {
         try {
-            log.info("발송한 메시지 : $message")
             kafkaTemplate.send(topic, message)
+                .whenComplete { result, exception ->
+                    if (exception == null) {
+                        log.info(
+                            "메시지 발송 성공 : $message, " +
+                                "\n partition: ${result?.recordMetadata?.partition()}, " +
+                                "\n offset: ${result?.recordMetadata?.offset()}",
+                        )
+                    } else {
+                        log.error("메시지 발송 실패 : $message", exception)
+                    }
+                }
             log.info("발송한 성공")
         } catch (e: Exception) {
-            log.error("발생한 에러 메시지 : $message", e)
+            log.error("메시지 발송 중 예외 발생 : $message \n 발생한 예외 : $e")
         }
     }
 }
