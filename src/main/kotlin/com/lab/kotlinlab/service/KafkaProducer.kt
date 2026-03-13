@@ -30,7 +30,7 @@ class KafkaProducer(
                 }
             log.info("발송한 성공")
         } catch (e: Exception) {
-            log.error("메시지 발송 중 예외 발생 : $message \n 발생한 예외 : $e")
+            log.error("메시지 발송 중 예외 발생 : $message", e)
         }
     }
 }
