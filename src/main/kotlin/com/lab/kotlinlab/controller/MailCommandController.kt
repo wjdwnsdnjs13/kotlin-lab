@@ -1,6 +1,7 @@
 package com.lab.labkotlin.controller
 
-import com.lab.labkotlin.application.email.EmailRequest
+import com.lab.kotlinlab.controller.req.PublishEmailRequest
+import com.lab.labkotlin.application.email.EmailSendMethod
 import com.lab.labkotlin.controller.req.SendEmailRequest
 import com.lab.labkotlin.service.MailCommandService
 import com.lab.labkotlin.service.outbound.EmailComparisonResult
@@ -18,27 +19,36 @@ class MailCommandController(
     @PostMapping("/smtp")
     suspend fun sendViaSmtp(
         @RequestBody request: SendEmailRequest,
-    ): EmailSendResult = mailCommandService.sendViaSmtp(request.toEmailRequest())
+    ): EmailSendResult = mailCommandService.sendViaSmtp(request.toEmailRequest(EmailSendMethod.SMTP))
 
     @PostMapping("/mailgun-sdk")
     suspend fun sendViaMailgunSdk(
-        @RequestBody request: SendEmailRequest,
-    ): EmailSendResult = mailCommandService.sendViaMailgunSdk(request.toEmailRequest())
+        @RequestBody sendEmailRequest: SendEmailRequest,
+    ): EmailSendResult =
+        mailCommandService.sendViaMailgunSdk(
+            sendEmailRequest.toEmailRequest(EmailSendMethod.MAILGUN_SDK),
+        )
 
     @PostMapping("/http-exchange")
     suspend fun sendViaHttpExchange(
-        @RequestBody request: SendEmailRequest,
-    ): EmailSendResult = mailCommandService.sendViaHttpExchange(request.toEmailRequest())
+        @RequestBody sendEmailRequest: SendEmailRequest,
+    ): EmailSendResult =
+        mailCommandService.sendViaHttpExchange(
+            sendEmailRequest.toEmailRequest(EmailSendMethod.HTTP_EXCHANGE),
+        )
 
     @PostMapping("/compare")
     suspend fun compareAllMethods(
-        @RequestBody request: SendEmailRequest,
-    ): EmailComparisonResult = mailCommandService.compareAllMethods(request.toEmailRequest())
-
-    private fun SendEmailRequest.toEmailRequest() =
-        EmailRequest(
-            to = this.to,
-            title = this.title,
-            body = this.body,
+        @RequestBody sendEmailRequest: SendEmailRequest,
+    ): EmailComparisonResult =
+        mailCommandService.compareAllMethods(
+            sendEmailRequest.toEmailRequest(EmailSendMethod.COMPARE),
         )
+
+    @PostMapping("/publish")
+    suspend fun publishEmail(
+        @RequestBody publishEmailRequest: PublishEmailRequest,
+    ) {
+        mailCommandService.publishEmail(publishEmailRequest.toEmailRequest())
+    }
 }
