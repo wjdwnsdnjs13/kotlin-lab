@@ -1,5 +1,7 @@
 package com.lab.labkotlin.service
 
+import com.lab.kotlinlab.application.EmailEventProducer
+import com.lab.kotlinlab.application.email.EmailEvent
 import com.lab.labkotlin.application.HttpExchangeEmailSender
 import com.lab.labkotlin.application.MailgunSdkEmailSender
 import com.lab.labkotlin.application.SmtpEmailSender
@@ -17,6 +19,7 @@ class MailCommandService(
     private val smtpEmailSender: SmtpEmailSender,
     private val mailgunSdkEmailSender: MailgunSdkEmailSender,
     private val httpExchangeEmailSender: HttpExchangeEmailSender,
+    private val emailEventProducer: EmailEventProducer,
 ) {
     private val logger = LoggerFactory.getLogger(MailCommandService::class.java)
 
@@ -113,4 +116,14 @@ class MailCommandService(
                 fastestMethod = fastest.method,
             )
         }
+
+    suspend fun publishEmail(request: EmailRequest) {
+        val emailEvent: EmailEvent =
+            EmailEvent.of(
+                messageId = "email-${System.currentTimeMillis()}",
+                emailRequest = request,
+                method = request.method,
+            )
+        emailEventProducer.publish(emailEvent)
+    }
 }
