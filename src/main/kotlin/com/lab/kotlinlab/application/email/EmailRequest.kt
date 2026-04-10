@@ -1,4 +1,4 @@
-package com.lab.labkotlin.application.email
+package com.lab.kotlinlab.application.email
 
 data class EmailRequest(
     val to: String,

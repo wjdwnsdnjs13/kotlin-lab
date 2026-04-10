@@ -1,4 +1,4 @@
-package com.lab.labkotlin.application.email
+package com.lab.kotlinlab.application.email
 
 enum class EmailSendMethod(val value: String) {
     SMTP("SMTP"),

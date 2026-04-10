@@ -1,4 +1,4 @@
-package com.lab.labkotlin.application
+package com.lab.kotlinlab.application
 
 import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.PathVariable

@@ -1,8 +1,6 @@
 package com.lab.kotlinlab.application.email
 
 import com.lab.kotlinlab.application.KafkaTopic
-import com.lab.labkotlin.application.email.EmailRequest
-import com.lab.labkotlin.application.email.EmailSendMethod
 
 data class EmailEvent(
     val messageId: String,

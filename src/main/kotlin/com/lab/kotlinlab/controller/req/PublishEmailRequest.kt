@@ -1,7 +1,7 @@
 package com.lab.kotlinlab.controller.req
 
-import com.lab.labkotlin.application.email.EmailRequest
-import com.lab.labkotlin.application.email.EmailSendMethod
+import com.lab.kotlinlab.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailSendMethod
 
 data class PublishEmailRequest(
     val method: EmailSendMethod,

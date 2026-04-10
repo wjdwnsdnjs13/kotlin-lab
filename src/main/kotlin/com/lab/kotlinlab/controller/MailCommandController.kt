@@ -1,11 +1,11 @@
-package com.lab.labkotlin.controller
+package com.lab.kotlinlab.controller
 
+import com.lab.kotlinlab.application.email.EmailSendMethod
 import com.lab.kotlinlab.controller.req.PublishEmailRequest
-import com.lab.labkotlin.application.email.EmailSendMethod
-import com.lab.labkotlin.controller.req.SendEmailRequest
-import com.lab.labkotlin.service.MailCommandService
-import com.lab.labkotlin.service.outbound.EmailComparisonResult
-import com.lab.labkotlin.service.outbound.EmailSendResult
+import com.lab.kotlinlab.controller.req.SendEmailRequest
+import com.lab.kotlinlab.service.MailCommandService
+import com.lab.kotlinlab.service.outbound.EmailComparisonResult
+import com.lab.kotlinlab.service.outbound.EmailSendResult
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

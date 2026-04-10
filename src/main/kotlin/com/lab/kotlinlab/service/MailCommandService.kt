@@ -1,14 +1,14 @@
-package com.lab.labkotlin.service
+package com.lab.kotlinlab.service
 
 import com.lab.kotlinlab.application.EmailEventProducer
+import com.lab.kotlinlab.application.HttpExchangeEmailSender
+import com.lab.kotlinlab.application.MailgunSdkEmailSender
+import com.lab.kotlinlab.application.SmtpEmailSender
 import com.lab.kotlinlab.application.email.EmailEvent
-import com.lab.labkotlin.application.HttpExchangeEmailSender
-import com.lab.labkotlin.application.MailgunSdkEmailSender
-import com.lab.labkotlin.application.SmtpEmailSender
-import com.lab.labkotlin.application.email.EmailRequest
-import com.lab.labkotlin.application.email.EmailSendMethod
-import com.lab.labkotlin.service.outbound.EmailComparisonResult
-import com.lab.labkotlin.service.outbound.EmailSendResult
+import com.lab.kotlinlab.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailSendMethod
+import com.lab.kotlinlab.service.outbound.EmailComparisonResult
+import com.lab.kotlinlab.service.outbound.EmailSendResult
 import kotlinx.coroutines.coroutineScope
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

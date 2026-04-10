@@ -1,6 +1,6 @@
-package com.lab.labkotlin.application
+package com.lab.kotlinlab.application
 
-import com.lab.labkotlin.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailRequest
 
 interface EmailSender {
     suspend fun send(request: EmailRequest)

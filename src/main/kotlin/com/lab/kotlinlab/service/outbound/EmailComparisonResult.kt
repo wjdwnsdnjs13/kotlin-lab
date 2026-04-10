@@ -1,6 +1,6 @@
-package com.lab.labkotlin.service.outbound
+package com.lab.kotlinlab.service.outbound
 
-import com.lab.labkotlin.application.email.EmailSendMethod
+import com.lab.kotlinlab.application.email.EmailSendMethod
 
 data class EmailComparisonResult(
     val results: List<EmailSendResult>,

@@ -1,6 +1,6 @@
-package com.lab.labkotlin.application
+package com.lab.kotlinlab.application
 
-import com.lab.labkotlin.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender

@@ -1,6 +1,6 @@
-package com.lab.labkotlin.config
+package com.lab.kotlinlab.config
 
-import com.lab.labkotlin.application.MailgunHttpClient
+import com.lab.kotlinlab.application.MailgunHttpClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

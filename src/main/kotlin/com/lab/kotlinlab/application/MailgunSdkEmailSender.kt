@@ -1,6 +1,6 @@
-package com.lab.labkotlin.application
+package com.lab.kotlinlab.application
 
-import com.lab.labkotlin.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailRequest
 import com.mailgun.api.v3.MailgunMessagesApi
 import com.mailgun.client.MailgunClient
 import com.mailgun.model.message.Message
