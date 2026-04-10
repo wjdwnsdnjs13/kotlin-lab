@@ -18,7 +18,7 @@ class HttpExchangeEmailSender(
         val formData =
             LinkedMultiValueMap<String, String>().apply {
                 add("from", fromEmail)
-                add("to", request.to)
+                add("to", request.to.value)
                 add("subject", request.title)
                 add("text", request.body)
             }

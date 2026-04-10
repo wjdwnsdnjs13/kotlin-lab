@@ -31,7 +31,7 @@ class MailgunSdkEmailSender(
                 domain,
                 Message.builder()
                     .from(fromEmail)
-                    .to(emailRequest.to)
+                    .to(emailRequest.to.value)
                     .subject(emailRequest.title)
                     .text(emailRequest.body)
                     .build(),

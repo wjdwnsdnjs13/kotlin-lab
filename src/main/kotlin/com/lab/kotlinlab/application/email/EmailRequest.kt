@@ -1,14 +1,14 @@
 package com.lab.kotlinlab.application.email
 
 data class EmailRequest(
-    val to: String,
+    val to: Email,
     val title: String,
     val body: String,
     val method: EmailSendMethod,
 ) {
     companion object {
         fun of(
-            to: String,
+            to: Email,
             title: String,
             body: String,
             method: EmailSendMethod,

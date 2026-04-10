@@ -15,7 +15,7 @@ class SmtpEmailSender(
     override suspend fun send(request: EmailRequest) =
         mailSender.send(
             SimpleMailMessage().apply {
-                setTo(request.to)
+                setTo(request.to.value)
                 setFrom(fromEmailAddress)
                 setSubject(request.title)
                 setText(request.body)

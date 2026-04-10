@@ -18,15 +18,15 @@ class EmailEventProducer(
 
     fun publish(emailEvent: EmailEvent): CompletableFuture<SendResult<String, String>> {
         val message: String = objectMapper.writeValueAsString(emailEvent)
-        val partitionKey: String = emailEvent.emailRequest.to
+        val partitionKey: String = emailEvent.emailRequest.to.value
 
         return kafkaTemplate.send(
             emailEvent.topic.value,
             partitionKey,
             message,
         ).whenComplete { result, exception ->
-            if (exception != null) {
-                log.info("${emailEvent.messageId} 이메일 요청 발행 성공: ${exception.message}")
+            if (exception == null) {
+                log.info("${emailEvent.messageId} 이메일 요청 발행 성공: ${emailEvent.emailRequest.title}")
             } else {
                 log.error("${emailEvent.messageId} 이메일 요청 발행 실패", exception)
             }
