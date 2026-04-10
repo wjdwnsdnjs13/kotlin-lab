@@ -99,7 +99,7 @@ class MailCommandService(
                 }.getOrElse { e ->
                     logger.error("HttpExchange 전송 실패", e)
                     EmailSendResult(
-                        method = EmailSendMethod.SMTP,
+                        method = EmailSendMethod.HTTP_EXCHANGE,
                         durationMs = 0,
                         success = false,
                         errorMessage = e.message,
