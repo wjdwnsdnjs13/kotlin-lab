@@ -1,0 +1,129 @@
+package com.lab.kotlinlab.service
+
+import com.lab.kotlinlab.application.EmailEventProducer
+import com.lab.kotlinlab.application.HttpExchangeEmailSender
+import com.lab.kotlinlab.application.MailgunSdkEmailSender
+import com.lab.kotlinlab.application.SmtpEmailSender
+import com.lab.kotlinlab.application.email.EmailEvent
+import com.lab.kotlinlab.application.email.EmailRequest
+import com.lab.kotlinlab.application.email.EmailSendMethod
+import com.lab.kotlinlab.service.outbound.EmailComparisonResult
+import com.lab.kotlinlab.service.outbound.EmailSendResult
+import kotlinx.coroutines.coroutineScope
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import kotlin.system.measureTimeMillis
+
+@Service
+class MailCommandService(
+    private val smtpEmailSender: SmtpEmailSender,
+    private val mailgunSdkEmailSender: MailgunSdkEmailSender,
+    private val httpExchangeEmailSender: HttpExchangeEmailSender,
+    private val emailEventProducer: EmailEventProducer,
+) {
+    private val logger = LoggerFactory.getLogger(MailCommandService::class.java)
+
+    suspend fun sendViaSmtp(request: EmailRequest): EmailSendResult {
+        val duration =
+            measureTimeMillis {
+                smtpEmailSender.send(request)
+            }
+        logger.info("SMTP 이메일 전송 완료: ${duration}ms")
+        return EmailSendResult(
+            method = EmailSendMethod.SMTP,
+            durationMs = duration,
+            success = true,
+        )
+    }
+
+    suspend fun sendViaMailgunSdk(request: EmailRequest): EmailSendResult {
+        val duration =
+            measureTimeMillis {
+                mailgunSdkEmailSender.send(request)
+            }
+        logger.info("Mailgun SDK 이메일 전송 완료: ${duration}ms")
+        return EmailSendResult(
+            method = EmailSendMethod.MAILGUN_SDK,
+            durationMs = duration,
+            success = true,
+        )
+    }
+
+    suspend fun sendViaHttpExchange(request: EmailRequest): EmailSendResult {
+        val duration =
+            measureTimeMillis {
+                httpExchangeEmailSender.send(request)
+            }
+        logger.info("HttpExchange 이메일 전송 완료: ${duration}ms")
+        return EmailSendResult(
+            method = EmailSendMethod.HTTP_EXCHANGE,
+            durationMs = duration,
+            success = true,
+        )
+    }
+
+    suspend fun compareAllMethods(request: EmailRequest): EmailComparisonResult =
+        coroutineScope {
+            logger.info("세 가지 방법으로 이메일 전송 비교 시작")
+
+            // 순차적으로 실행해서 각각의 시간 측정
+            val smtpResult =
+                runCatching {
+                    sendViaSmtp(request)
+                }.getOrElse { e ->
+                    logger.error("SMTP 전송 실패", e)
+                    EmailSendResult(
+                        method = EmailSendMethod.SMTP,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
+                }
+
+            val mailgunSdkResult =
+                runCatching {
+                    sendViaMailgunSdk(request)
+                }.getOrElse { e ->
+                    logger.error("Mailgun SDK 전송 실패", e)
+                    EmailSendResult(
+                        method = EmailSendMethod.MAILGUN_SDK,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
+                }
+
+            val httpExchangeResult =
+                runCatching {
+                    sendViaHttpExchange(request)
+                }.getOrElse { e ->
+                    logger.error("HttpExchange 전송 실패", e)
+                    EmailSendResult(
+                        method = EmailSendMethod.HTTP_EXCHANGE,
+                        durationMs = 0,
+                        success = false,
+                        errorMessage = e.message,
+                    )
+                }
+
+            val results = listOf(smtpResult, mailgunSdkResult, httpExchangeResult)
+            val fastest = results.filter { it.success }.minBy { it.durationMs }
+
+            logger.info("전송 비교 완료 - 가장 빠른 방법: ${fastest.method}")
+
+            EmailComparisonResult(
+                results = results,
+                fastestMethod = fastest.method,
+            )
+        }
+
+    suspend fun publishEmail(request: EmailRequest) {
+        val emailEvent: EmailEvent =
+            EmailEvent.of(
+                messageId = "email-${System.currentTimeMillis()}",
+                emailRequest = request,
+                method = request.method,
+            )
+        emailEventProducer.publish(emailEvent)
+    }
+}

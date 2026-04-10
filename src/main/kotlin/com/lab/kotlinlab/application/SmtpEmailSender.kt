@@ -1,0 +1,24 @@
+package com.lab.kotlinlab.application
+
+import com.lab.kotlinlab.application.email.EmailRequest
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.stereotype.Component
+
+@Component
+class SmtpEmailSender(
+    val mailSender: JavaMailSender,
+    @Value("\${spring.mail.username}")
+    val fromEmailAddress: String,
+) : EmailSender {
+    override suspend fun send(request: EmailRequest) =
+        mailSender.send(
+            SimpleMailMessage().apply {
+                setTo(request.to.value)
+                setFrom(fromEmailAddress)
+                setSubject(request.title)
+                setText(request.body)
+            },
+        )
+}

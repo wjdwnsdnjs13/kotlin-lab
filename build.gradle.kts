@@ -5,24 +5,21 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
-    id("com.diffplug.spotless") version "6.25.0"
 }
 
-spotless {
-    kotlin {
-        target("**/*.kt")
-        targetExclude("**/build/**/*.kt")
-
-        ktlint("0.50.0")
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    verbose.set(true)
+    outputToConsole.set(true)
+    coloredOutput.set(true)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.JSON)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
     }
-    json {
-        target("src/**/*.json")
-        simple()
-    }
-
-    kotlinGradle {
-        target("*.gradle.kts")
-        ktlint()
+    filter {
+        exclude("**/generated/**")
+        exclude { it.file.path.contains("generated") }
+        include("**/*.kt", "**/*.kts")
     }
 }
 
@@ -66,6 +63,20 @@ dependencies {
 
 //    카프카
     implementation("org.springframework.kafka:spring-kafka")
+
+//    Redis (방안 2 멱등성용)
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+//     1. SMTP용
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+//     2. SDK용
+    implementation("com.mailgun:mailgun-java:2.2.1")
+//     3. HttpExchange용 (WebFlux가 필요합니다)
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+//    Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }
 
 kotlin {
