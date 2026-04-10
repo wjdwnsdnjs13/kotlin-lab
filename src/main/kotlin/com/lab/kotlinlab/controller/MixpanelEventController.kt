@@ -25,14 +25,14 @@ class MixpanelEventController(
                 mixpanelEventName = MixpanelEvent.MixpanelEventName.ODSAY_CALL_COUNT,
                 memberId = oDsayCallCountReq.memberId,
                 property =
-                ODsayCallCountProperty(
-                    startX = "12.12",
-                    startY = "123.123",
-                    endX = "21.21",
-                    endY = "321.321",
-                    oDsayCallCount = oDsayCallCountReq.oDsayCallCount,
-                    routeCount = oDsayCallCountReq.routeCount,
-                ),
+                    ODsayCallCountProperty(
+                        startX = "12.12",
+                        startY = "123.123",
+                        endX = "21.21",
+                        endY = "321.321",
+                        oDsayCallCount = oDsayCallCountReq.oDsayCallCount,
+                        routeCount = oDsayCallCountReq.routeCount,
+                    ),
             ),
         )
     }
